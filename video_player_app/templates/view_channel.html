@@ -1,0 +1,27 @@
+<main>
+    <div class="container">
+      <h2 class="section-title">The videos of {{username}} are </h2>
+      <div class="video-grid">
+        {% for video in videos %}
+          <div class="video">
+            <a href="{% url 'video:video_detail' video.pk %}">
+                <video width="320" height="240" controls>
+                    <source src="{{ video.video_file.url }}" type="video/mp4" >
+                    Your browser does not support the video tag.
+                </video> 
+            </a>
+              <div class="video-info">
+                <h3 class="#">{{ video.title }}</h3>
+                <p class="#">{{ video.user }}</p>
+                <p class="#">{{ video.upload_date|date }}</p>
+                <p class="#">{{ video.description }}</p>
+              </div>
+            
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </main>
+
+
+  The total subscribers are {{ subscribers }}

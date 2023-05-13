@@ -7,10 +7,15 @@
     <a href="{% url 'video:video_like' video.id %}" > Like </a>
     {{ video.likes_count }}
     <br>
-    <a href="{% url 'video:comment' video.id%}" > Comment </a>
+    <a href="{% url 'video:comment' video.id %}" > Comment </a>
     <br>
     
-    <a href="{% url 'video:subscribe' video.user.username %}" > Subscribe </a>    
+    <a href="{% url 'video:subscribe' video.user.username  video.pk %}" > Subscribe </a>
+    <br>
+    Uploaded by : {{ video.user.username }}
+    <br>
+    <a href="{% url 'video:view_channel' video.user.username %}" > View Channel </a> 
+
     
 
 {% endfor %}

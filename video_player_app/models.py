@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
-    photo=models.ImageField(upload_to='userphotos')
+    photo=models.ImageField(upload_to='userphotos',blank=True,null=True)
     description=models.TextField(blank=True,null=True)
     class Meta:
         verbose_name="User"
@@ -11,6 +11,13 @@ class User(AbstractUser):
     def __str__(self):
         return self.username
 
+    def save(self,*args,**kwargs):
+        is_new_user=self.pk
+        if is_new_user:
+            Channel.objects.create(name=f"{self.username}'s Channel",
+            description="My channel Description",
+            user=self)
+        super(User, self).save(*args, **kwargs)
 
 class Video(models.Model):
     title=models.CharField(max_length=255)
@@ -34,13 +41,14 @@ class Channel(models.Model):
     description=models.TextField()
     user=models.OneToOneField(User,on_delete=models.CASCADE,related_name="channel")
     videos = models.ManyToManyField(Video,related_name="channel")
-
     def __str__(self):
         return self.name
     
     @property
     def subscribe_count(self):
         return self.subsribe.filter(is_subscribed=True).count()
+
+
 
 
 

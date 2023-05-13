@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'video_player_app'
+    'video_player_app',
+    
+    
 ]
 
 MIDDLEWARE = [
@@ -129,3 +131,6 @@ MEDIA_URL ="media/"
 MEDIA_ROOT = BASE_DIR/"mediafiles"
 LOGIN_URL="video:login"
 LOGIN_REDIRECT_URL="video:home"
+
+
+

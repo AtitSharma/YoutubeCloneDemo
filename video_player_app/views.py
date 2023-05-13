@@ -2,10 +2,12 @@ from django.shortcuts import render,get_object_or_404,redirect,reverse
 from .models import Video,Channel,User,Like,Comment,Subscribe
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
+
 from django.contrib.auth import logout
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from .forms import UserRegisterForm,UserCommentForm,UserUploadVideoForm
+# from django.db.models import Count
 # Create your views here.
 def home(request):
     videos=Video.objects.all()
@@ -69,7 +71,7 @@ def comment_video(request,id):
     return render(request,"comment.html",context)
     
 @login_required
-def subscribe_channel(request,username):
+def subscribe_channel(request,username,pk):
     id=Channel.objects.get(user__username=username).id
     channel=get_object_or_404(Channel,id=id)
     user=request.user
@@ -81,7 +83,7 @@ def subscribe_channel(request,username):
             subscribe.is_subscribed=True
         subscribe.save()
     total_subscribe=channel.subsribe.filter(is_subscribed=True).count() 
-    return HttpResponseRedirect(reverse("video:video_detail",args=(id,)))
+    return HttpResponseRedirect(reverse("video:video_detail",args=(pk,)))
 
 
 
@@ -108,4 +110,14 @@ def upload_video(request):
         form=UserUploadVideoForm()
     return render(request,'upload_video.html',{"form":form})
 
+
+
+def view_channel(request,username):
+    videos=Video.objects.filter(user__username=username)
+    subscribers=Channel.objects.get(user__username=username).subscribe_count
+    context={
+        "videos":videos,"username":username,
+        "subscribers":subscribers
+    }
+    return render(request,"view_channel.html",context)
 
