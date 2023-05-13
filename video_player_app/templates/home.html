@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      
+      .video-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        grid-gap: 20px;
+      }
+      
+      .video {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        overflow: hidden;
+        box-shadow: 0px 0px 5px #ddd;
+        transition: transform 0.2s ease-in-out;
+      }
+      
+      .video:hover {
+        transform: scale(1.02);
+      }
+      
+      .video-thumbnail {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      
+      .video-info {
+        padding: 10px;
+      }
+      
+      .video-title {
+        margin: 0;
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+      
+      .video-user,
+      .video-date {
+        margin: 0;
+        font-size: 0.9rem;
+        color: #666;
+      }
+      
+      .video-description {
+        margin: 10px 0 0;
+        font-size: 1rem;
+        line-height: 1.2;
+      }
+      
+</style>
+  <main>
+    <div class="container">
+      <h2 class="section-title">Recent Videos</h2>
+      <div class="video-grid">
+        {% for video in videos %}
+          <div class="video">
+            <a href="{% url 'video:video_detail' video.pk %}">
+              {% if video.thumbnail %}
+              <img class="video-thumbnail" src="{{ video.thumbnail.url }}" alt="{{ video.title }}">
+              {% endif %}
+              <div class="video-info">
+                <h3 class="video-title">{{ video.title }}</h3>
+                <p class="video-user">{{ video.user }}</p>
+                <p class="video-date">{{ video.upload_date|date }}</p>
+                <p class="video-description">{{ video.description }}</p>
+              </div>
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </main>
+{% endblock %}
+
+
+
+

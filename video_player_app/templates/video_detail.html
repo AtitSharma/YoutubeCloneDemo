@@ -1,0 +1,16 @@
+{% for video in videos %}
+    <video width="320" height="240" controls>
+        <source src="{{ video.video_file.url }}" type="video/mp4" >
+        Your browser does not support the video tag.
+    </video> 
+    <br>
+    <a href="{% url 'video:video_like' video.id %}" > Like </a>
+    {{ video.likes_count }}
+    <br>
+    <a href="{% url 'video:comment' video.id%}" > Comment </a>
+    <br>
+    
+    <a href="{% url 'video:subscribe' video.user.username %}" > Subscribe </a>    
+    
+
+{% endfor %}
